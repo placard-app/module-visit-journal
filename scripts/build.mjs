@@ -49,6 +49,7 @@ await esbuild.build({
 	bundle: true,
 	format: "esm",
 	platform: "browser",
+	loader: { ".css": "text" },
 	target: "es2022",
 	jsx: "automatic",
 	alias: {
