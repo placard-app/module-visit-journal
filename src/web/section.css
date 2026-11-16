@@ -1,0 +1,170 @@
+.visit-journal {
+	border-top: 1px solid var(--border, #ddd3c5);
+	padding-top: 28px;
+	display: grid;
+	gap: 0;
+	color: var(--foreground, #1a1612);
+}
+.visit-journal h2,
+.visit-journal p {
+	margin: 0;
+}
+.visit-journal h2 {
+	font-size: 1.25rem;
+	font-weight: 650;
+	line-height: 1.3;
+}
+.visit-journal .journal-intro {
+	margin-top: 6px;
+	color: var(--muted-foreground, #6b5a48);
+	font-size: 0.9rem;
+}
+.visit-journal form {
+	display: grid;
+	gap: 16px;
+	margin-top: 24px;
+	padding: 20px;
+	background: color-mix(
+		in srgb,
+		var(--primary, #8b3a2a) 5%,
+		var(--card, #faf6ef)
+	);
+	border: 1px solid var(--border, #e2d8c9);
+	border-radius: 16px;
+}
+.visit-journal label {
+	display: grid;
+	gap: 7px;
+	font-size: 0.875rem;
+	font-weight: 600;
+}
+.visit-journal input,
+.visit-journal textarea,
+.visit-journal button {
+	font: inherit;
+}
+.visit-journal input,
+.visit-journal textarea {
+	box-sizing: border-box;
+	width: 100%;
+	min-width: 0;
+	color: inherit;
+	background: #fffdf9;
+	border: 1px solid #d4c8b8;
+	border-radius: 9px;
+	padding: 10px 12px;
+	font-weight: 400;
+}
+.visit-journal input {
+	min-height: 44px;
+}
+.visit-journal textarea {
+	min-height: 100px;
+	resize: vertical;
+	line-height: 1.5;
+}
+.visit-journal button {
+	cursor: pointer;
+}
+.visit-journal button:disabled {
+	opacity: 0.5;
+	cursor: default;
+}
+.visit-journal :is(input, textarea, button):focus-visible {
+	outline: 3px solid var(--spine-gold, #c4a574);
+	outline-offset: 2px;
+}
+.visit-journal .journal-footer {
+	display: flex;
+	align-items: flex-end;
+	justify-content: space-between;
+	flex-wrap: wrap;
+	gap: 12px;
+}
+.visit-journal .journal-submit {
+	min-height: 44px;
+	padding: 10px 20px;
+	border: 0;
+	border-radius: 9px;
+	background: var(--action, #8b3a2a);
+	color: var(--action-fg, #f2ebe0);
+	font-weight: 650;
+}
+.visit-journal .journal-submit:not(:disabled):hover {
+	background: #702e22;
+}
+.visit-journal .journal-status {
+	margin-top: 24px;
+	color: var(--muted-foreground, #6b5a48);
+	font-size: 0.9rem;
+}
+.visit-journal .journal-entry {
+	padding: 20px 0;
+	border-bottom: 1px solid var(--border, #ddd3c5);
+}
+.visit-journal .journal-entry:first-of-type {
+	margin-top: 8px;
+}
+.visit-journal .journal-entry-head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+}
+.visit-journal time {
+	font-size: 0.9rem;
+	font-weight: 650;
+}
+.visit-journal .journal-entry p {
+	margin-top: 8px;
+	white-space: pre-wrap;
+	overflow-wrap: anywhere;
+	line-height: 1.6;
+}
+.visit-journal .journal-delete {
+	display: grid;
+	place-items: center;
+	flex: none;
+	width: 44px;
+	height: 44px;
+	margin: -8px 0;
+	padding: 0;
+	border: 0;
+	border-radius: 9px;
+	background: transparent;
+	color: var(--muted-foreground, #6b5a48);
+}
+.visit-journal .journal-delete:not(:disabled):hover {
+	background: #ece5d9;
+	color: var(--destructive, #9b2c1f);
+}
+.visit-journal .journal-confirm {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 8px;
+	margin-top: 14px;
+	font-size: 0.875rem;
+}
+.visit-journal .journal-confirm button,
+.visit-journal .journal-reload {
+	min-height: 44px;
+	padding: 8px 12px;
+	border: 1px solid #cbbdae;
+	border-radius: 8px;
+	background: #fffdf9;
+	color: inherit;
+}
+.visit-journal .journal-confirm .journal-confirm-delete {
+	color: var(--destructive, #9b2c1f);
+	font-weight: 600;
+}
+.visit-journal [role="alert"] {
+	margin-top: 20px;
+	color: var(--destructive, #9b2c1f);
+}
+@media (max-width: 480px) {
+	.visit-journal form {
+		padding: 16px;
+	}
+}

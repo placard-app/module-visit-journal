@@ -1,3 +1,4 @@
+import styles from "./section.css";
 import { useEffect, useState } from "react";
 
 type Entry = { id: string; date: string; note: string };
@@ -23,6 +24,13 @@ function newId() {
 		byte.toString(16).padStart(2, "0"),
 	).join("");
 	return `${hex.slice(0, 8)}-${hex.slice(8, 12)}-${hex.slice(12, 16)}-${hex.slice(16, 20)}-${hex.slice(20)}`;
+}
+function formatDate(date: string) {
+	return new Date(`${date}T12:00:00`).toLocaleDateString(undefined, {
+		year: "numeric",
+		month: "long",
+		day: "numeric",
+	});
 }
 function today() {
 	const date = new Date();
@@ -78,9 +86,9 @@ export function VisitJournalSection({
 	}
 	return (
 		<section className="visit-journal" aria-label="Visit Journal">
-			<style>{`.visit-journal{border-top:1px solid #8885;padding-top:24px;display:grid;gap:12px}.visit-journal h2{font-size:1.2rem;font-weight:600}.visit-journal form,.visit-journal label{display:grid;gap:8px}.visit-journal input,.visit-journal textarea,.visit-journal button{font:inherit;color:inherit;background:transparent;border:1px solid #8888;border-radius:6px;padding:8px}.visit-journal button{cursor:pointer;min-height:44px}.visit-journal button:disabled{opacity:.5}.visit-journal textarea{min-height:100px;resize:vertical}.visit-journal article{border-top:1px solid #8884;padding-top:12px}.visit-journal article p{white-space:pre-wrap;overflow-wrap:anywhere}.visit-journal [role=alert]{color:#c65b45}`}</style>
+			<style>{styles}</style>
 			<h2>Visit Journal</h2>
-			<p>Private notes for your visits.</p>
+			<p className="journal-intro">Private notes for your visits.</p>
 			<form
 				onSubmit={(event) => {
 					event.preventDefault();
@@ -90,20 +98,7 @@ export function VisitJournalSection({
 				}}
 			>
 				<label>
-					Visit date
-					<input
-						disabled={busy || !entries}
-						type="date"
-						required
-						value={date}
-						onChange={(event) => {
-							setDate(event.target.value);
-							setPendingId(null);
-						}}
-					/>
-				</label>
-				<label>
-					Note
+					Visit note
 					<textarea
 						disabled={busy || !entries}
 						required
@@ -115,14 +110,34 @@ export function VisitJournalSection({
 						}}
 					/>
 				</label>
-				<button disabled={busy || !entries || !note.trim()} type="submit">
-					{busy ? "Saving…" : "Add visit"}
-				</button>
+				<div className="journal-footer">
+					<label>
+						Visit date
+						<input
+							disabled={busy || !entries}
+							type="date"
+							required
+							value={date}
+							onChange={(event) => {
+								setDate(event.target.value);
+								setPendingId(null);
+							}}
+						/>
+					</label>
+					<button
+						className="journal-submit"
+						disabled={busy || !entries || !note.trim()}
+						type="submit"
+					>
+						{busy ? "Saving…" : "Add visit"}
+					</button>
+				</div>
 			</form>
 			{error && (
 				<p role="alert">
 					{error}{" "}
 					<button
+						className="journal-reload"
 						onClick={() => {
 							setError("");
 							void call({ action: "list", placeId })
@@ -134,16 +149,48 @@ export function VisitJournalSection({
 					</button>
 				</p>
 			)}
-			{!entries && !error && <p role="status">Loading visits…</p>}
-			{entries?.length === 0 && <p>No visits yet.</p>}
+			{!entries && !error && (
+				<p className="journal-status" role="status">
+					Loading visits…
+				</p>
+			)}
+			{entries?.length === 0 && (
+				<p className="journal-status">No visits yet.</p>
+			)}
 			{entries?.map((entry) => (
-				<article key={entry.id}>
-					<time dateTime={entry.date}>{entry.date}</time>
+				<article className="journal-entry" key={entry.id}>
+					<div className="journal-entry-head">
+						<time dateTime={entry.date}>{formatDate(entry.date)}</time>
+						{deleting !== entry.id && (
+							<button
+								className="journal-delete"
+								title="Delete visit"
+								disabled={busy}
+								onClick={() => setDeleting(entry.id)}
+								aria-label={`Delete visit from ${formatDate(entry.date)}`}
+							>
+								<svg
+									aria-hidden="true"
+									width="18"
+									height="18"
+									viewBox="0 0 24 24"
+									fill="none"
+									stroke="currentColor"
+									strokeWidth="1.7"
+									strokeLinecap="round"
+									strokeLinejoin="round"
+								>
+									<path d="M4 7h16M10 11v6m4-6v6M5.5 7l1 12a2 2 0 0 0 2 2h7a2 2 0 0 0 2-2l1-12M9 7V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3" />
+								</svg>
+							</button>
+						)}
+					</div>
 					<p>{entry.note}</p>
 					{deleting === entry.id ? (
-						<div>
+						<div className="journal-confirm">
 							Delete this visit?{" "}
 							<button
+								className="journal-confirm-delete"
 								disabled={busy}
 								onClick={() =>
 									void update({ action: "delete", placeId, id: entry.id })
@@ -155,11 +202,7 @@ export function VisitJournalSection({
 								Cancel
 							</button>
 						</div>
-					) : (
-						<button disabled={busy} onClick={() => setDeleting(entry.id)}>
-							Delete visit
-						</button>
-					)}
+					) : null}
 				</article>
 			))}
 		</section>
