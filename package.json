@@ -1,0 +1,27 @@
+{
+	"name": "@placard-official/places.visit-journal",
+	"version": "0.1.1",
+	"private": true,
+	"type": "module",
+	"engines": {
+		"node": ">=24"
+	},
+	"scripts": {
+		"build": "node scripts/build.mjs",
+		"build:zip": "node scripts/build.mjs",
+		"typecheck": "tsc --noEmit",
+		"test": "node --experimental-strip-types --test tests/*.test.ts"
+	},
+	"devDependencies": {
+		"@types/node": "^24.0.0",
+		"@types/react": "^19.2.0",
+		"esbuild": "^0.28.2",
+		"fflate": "^0.8.3",
+		"react": "^19.2.0",
+		"typescript": "^5.9.0"
+	},
+	"dependencies": {
+		"zod": "^4.0.0"
+	},
+	"license": "AGPL-3.0-only"
+}
